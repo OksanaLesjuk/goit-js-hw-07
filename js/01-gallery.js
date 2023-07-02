@@ -24,28 +24,34 @@ galleryWrapper.insertAdjacentHTML('beforeend', galleryList)
 
 galleryWrapper.addEventListener('click', onImgClick)
 
-
+let instance = null;
 
 function onImgClick (evt) {
 evt.preventDefault()
-document.addEventListener('keydown', onPressEsc)
+
 
 if(!evt.target.classList.contains('gallery__image')) {
     return
-}
+} else {
 const originalImg = evt.target.dataset.source;
 
-const instance = basicLightbox.create(
-    `<img src="${originalImg}" width="800" height="600">`)
-instance.show()
+instance = basicLightbox.create(
+    `<img src="${originalImg}" width="800" height="600">`, {
+      onShow: () => document.addEventListener('keydown', onPressEsc),
+        onClose: () => document.removeEventListener('keydown', onPressEsc)
 
-function onPressEsc(evt){
-   if(evt.code === 'Escape'){
-    instance.close() 
-}}
+    })
+instance.show()}
+
+
 }
 
-
+function onPressEsc(evt){
+  if(evt.code !== 'Escape'){
+    return 
+}
+instance.close()
+}
 
 
 
