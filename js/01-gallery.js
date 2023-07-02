@@ -3,11 +3,11 @@ import { galleryItems } from './gallery-items.js';
 
 const galleryWrapper = document.querySelector('.gallery');
 
-const galleryList = createGallery (galleryItems);
+const galleryList = createGallery(galleryItems);
 
-function createGallery (arr) {
- return arr.map(({preview, original, description }) => 
-     `<li class="gallery__item">
+function createGallery(arr) {
+  return arr.map(({ preview, original, description }) =>
+    `<li class="gallery__item">
      <a class="gallery__link" href="${original}">    <img
            class="gallery__image"
           src="${preview}"
@@ -15,8 +15,8 @@ function createGallery (arr) {
            alt="${description}"
          />
        </a>
-  </li>` 
-).join(' ')
+  </li>`
+  ).join(' ')
 
 }
 
@@ -26,31 +26,30 @@ galleryWrapper.addEventListener('click', onImgClick)
 
 let instance = null;
 
-function onImgClick (evt) {
-evt.preventDefault()
+function onImgClick(evt) {
+  evt.preventDefault()
 
 
-if(!evt.target.classList.contains('gallery__image')) {
+  if (!evt.target.classList.contains('gallery__image')) {
     return
-} else {
-const originalImg = evt.target.dataset.source;
+  } else {
+    const originalImg = evt.target.dataset.source;
 
-instance = basicLightbox.create(
-    `<img src="${originalImg}" width="800" height="600">`, {
+    instance = basicLightbox.create(
+      `<img src="${originalImg}" width="800" height="600">`, {
       onShow: () => document.addEventListener('keydown', onPressEsc),
-        onClose: () => document.removeEventListener('keydown', onPressEsc)
+      onClose: () => document.removeEventListener('keydown', onPressEsc)
 
     })
-instance.show()}
-
-
+    instance.show()
+  }
 }
 
-function onPressEsc(evt){
-  if(evt.code !== 'Escape'){
-    return 
-}
-instance.close()
+function onPressEsc(evt) {
+  if (evt.code !== 'Escape') {
+    return
+  }
+  instance.close()
 }
 
 
